@@ -1,55 +1,68 @@
 
-$(document).ready(function () {
+var topics = ['horse', 'dog', 'cat', 'lion', 'bird', 'butterfly', 'chicken', 'goldfish', 'gerbil'];
+
+for (var i = 0; i < topics.length; i++) {
+    var buttons = $('<button class="btn">' + topics[i] + '</button>')
+    buttons.appendTo('#topics');
+}
 
 
-    var topics = ['hours', 'dog', 'cat', 'lion', 'bird', 'butterfly', 'chicken', 'goldfish', 'gerbil'];
 
-    function buttons() {
-        for (var i = 0; i < topics.length; i++) {
-            //console.log(topics[i]);
-            var button = $("<button>").addClass("btn");
-            button.text(topics[i]);
-            $("#topics").append(button);
+$(document).on('click', 'button.btn', function (event) {
+    event.preventDefault()
+
+    var animal = $(this).html();
+    console.log(animal);
+
+    var APIkey = "5Nnteu5jva3e34yiO4plyxydSMn8vkFs";
+
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=" + APIkey + "&limit=5";
 
 
-        }
-    }
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response);
+        var results = response.data;
+        $("#div1").empty();
 
-    buttons();
+        for (var j = 0; j < results.length; j++) {
+            
 
-    $(".btn").click(function () {
-        event.preventDefault();
-        var gifAnimal = $(this).val().trim();
-        console.log(gifAnimal);
-        var APIkey = "5Nnteu5jva3e34yiO4plyxydSMn8vkFs";
+            var animalDiv = $("#div1");
 
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifAnimal + "&api_key=" + APIkey + "&limit=5";
+            var p = $("<p>").text("Rating: " + results[j].rating);
 
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-        })
+            var animalImage = $("<img>");
+            animalImage.attr("src", results[j].images.fixed_height.url);
 
-        //buttons();
+            animalDiv.append(p);
+            animalDiv.append(animalImage);
+
+            $("#div1").prepend(animalDiv);
+
+        };
+
+
     })
 
-    $("#add-animal").click(function () {
-        //when submit button click add another button in div
-        event.preventDefault();
-        var animal = $("#animal-input").val().trim();
-        topics.push(animal);
-        console.log(animal);
-        var button = $("<button>").addClass("btn");
-        button.text(animal);
-        $("#topics").append(button);
-
-    })
 
 })
 
-//create an onclick function grab the value of the button
-//use that value in the query link 
-//add query to the link
-//add it to page (html)
+$("#add-animal").on("click", function(event){
+    event.preventDefault()
+
+    var input = $("#animal-input").val();
+
+    console.log(input);
+
+    var buttons = $('<button class="btn">' + input + '</button>')
+    $("#topics").append(buttons);
+
+})
+
+
+
+
+
