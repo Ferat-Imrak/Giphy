@@ -2,7 +2,28 @@ label, input {
     display: block;
 }
 
+
 #add-animal {
     background-color: green;
+    color: white;
+
+}
+
+.btn {
+    background-color: green;
+    padding: 10px;
+    margin: 5px;
+    color: white;
+
+}
+
+#add {
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 25px;
+    background-color: rgb(43, 255, 0);
+    padding: 10px;
+    margin-right: 80%;
+    color: white;
 }
 
